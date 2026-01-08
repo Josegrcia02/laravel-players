@@ -20,7 +20,7 @@ WORKDIR /var/www
 COPY . .
 
 # Install PHP dependencies
-composer install --no-dev --optimize-autoloader --no-interaction && npm install && npm run build && php artisan migrate --force
+RUN composer install --no-dev --optimize-autoloader --no-interaction && npm install && npm run build && php artisan migrate --force
 
 # Install Node dependencies
 RUN npm install

@@ -1,33 +1,32 @@
-# Use PHP 8.4 FPM image
-FROM php:8.4-fpm
+# Usar la imagen PHP 8.2 FPM
+FROM php:8.2-fpm 
 
-# Install system dependencies
-# Se añade libpq-dev para que las extensiones de PostgreSQL puedan compilarse
-RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpng-dev libonig-dev libxml2-dev libzip-dev libicu-dev \
-    libpq-dev \
-    nodejs npm \
-    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring zip exif pcntl gd intl \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Instalar Composer copiando el binario oficial
+# 1. Instalar dependencias del sistema (incluida libpq-dev para PostgreSQL)
+RUN apt-get update && apt-get install -y \ 
+    git curl zip unzip libpng-dev libonig-dev libxml2-dev libzip-dev libicu-dev libpq-dev \ 
+    nodejs npm \ 
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql mbstring zip exif pcntl gd intl \ 
+    && apt-get clean && rm -rf /var/lib/apt/lists/* # 2. Instalar Composer de forma oficial
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
-WORKDIR /var/www
+# Establecer el directorio de trabajo
+WORKDIR /var/www 
 
-# Copy project files
-COPY . .
+# Copiar los archivos del proyecto
+COPY . . 
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction && npm install && npm run build && php artisan migrate --force
+# 3. Instalar dependencias de PHP (QUITAMOS EL --no-dev PARA QUE FUNCIONE EL FAKE)
+RUN composer install --optimize-autoloader --no-interaction
 
-# Install Node dependencies
-RUN npm install
-RUN npm run build
+# 4. Instalar dependencias de Node y compilar assets (Vite)
+RUN npm install 
+RUN npm run build 
 
-# Expose port
-EXPOSE 8000
+# 5. Ajustar permisos para carpetas de escritura de Laravel
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# El comando utiliza 0.0.0.0 para que sea accesible desde fuera del contenedor
+# Exponer el puerto configurado
+EXPOSE 8000 
+
+# 6. COMANDO FINAL
 CMD php artisan migrate:fresh --seed --force && php artisan serve --host=0.0.0.0 --port=8000

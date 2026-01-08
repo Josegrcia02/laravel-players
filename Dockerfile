@@ -30,4 +30,4 @@ RUN npm run build
 EXPOSE 8000
 
 # El comando utiliza 0.0.0.0 para que sea accesible desde fuera del contenedor
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan migrate:fresh --seed --force && php artisan serve --host=0.0.0.0 --port=8000

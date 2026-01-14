@@ -197,7 +197,7 @@ Se usa el mismo que en el dev
 
 ### Funcionamiento
 
-Se añaden las variables de entorno necesarias mediante la url interna que nos da render y añadimos la url que nos proporciona render para la variable de APP_URL.
+Se añaden las variables de entorno necesarias mediante la url interna que nos da render.
 
 #### Servicio postgre de base de datos
 

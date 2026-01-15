@@ -117,7 +117,19 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - DB_CONNECTION=pgsql
       - DB_HOST=postgres_players_dev
+      - DB_PORT=5432
+      - DB_DATABASE=laravel
+      - DB_USERNAME=user
+      - DB_PASSWORD=1234
+      - APP_URL=http://localhost:8000
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=base64:nC/0qBorpeSiEX2e++XFKfixa1Srke0PBjNH/zf9abY=
+      - SESSION_DRIVER=database
+      - CACHE_STORE=database
+      - LOG_CHANNEL=stderr
     depends_on:
       - db  
   
@@ -132,9 +144,6 @@ services:
     ports:
       - "5434:5432"
 ```
-
-Para esta opción hay diferentes maneras, levantar la aplicación cambiando las variables de entorno necesarias desde el .env.
-Crear un .env especifico para el dev o añadir las variables dentro del apartado environment del docker-compose para que las sobreescriba.
 
 ### Funcionamiento
 

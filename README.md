@@ -14,6 +14,7 @@ Luego he ido a las configuraciones del proyecto en vercel y he cambiado la versi
 
 He seguido el despliegue de la aplicación con la guia proporcionada y al colocar las variables de entorno que uso en render se ha levantado correctamente y muestra la página principal de la aplicación.
 
-[Vercel](laravel-players-7d4tfc3tx-josegrcias-projects.vercel.app)
+laravel-players-7d4tfc3tx-josegrcias-projects.vercel.app
+**Copia la url en el navegador que github hace algo raro y te abre un archivo de github y da error.**
 
 Con mucho love, jose ❤️.
